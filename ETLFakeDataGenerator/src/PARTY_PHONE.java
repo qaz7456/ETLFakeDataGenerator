@@ -15,6 +15,7 @@ import java.util.Random;
 
 import tw.com.fakedatagenerator.party.phone.mode.Detail;
 import tw.com.fakedatagenerator.util.RandomValue;
+import tw.com.fakedatagenerator.util.Utils;
 import tw.com.fakedatagenerator.mode.Footer;
 import tw.com.fakedatagenerator.mode.Header;
 
@@ -101,10 +102,10 @@ public class PARTY_PHONE {
 		int fileCount = 1;
 		
 		//起始本會代號
-		int domain_id = 5070013;
+		int domain_id = 5030019;
 		
 		//要產生的明細錄筆數範圍
-		int detailCount = 100;
+		int detailCount = 1000000;
 		//detailCount = (int)((Math.random()*detailCount)+1);
 		
 		//要產生的明細錄筆數範圍
@@ -117,15 +118,14 @@ public class PARTY_PHONE {
 			StringBuilder executiveContent = new StringBuilder();
 			
 			for (int i = 0; i < fileCount; i++) {
-
-				String fileName = fileNameFormat(getRandomValFromArray(CENTRAL_NO_ARRAY),
-						getRandomValFromArray(CURRENCY_TYPE_ARRAY), THEME,
-						getRandomTimeBetweenTwoDates(BEGINTIME, ENDTIME));
+				String central_no = Utils.getRandomValFromArray(CENTRAL_NO_ARRAY);
+				String record_date = Utils.getRandomTimeBetweenTwoDates(BEGINTIME, ENDTIME);
+				
+				String fileName = Utils.fileNameFormat(central_no,
+						Utils.getRandomValFromArray(CURRENCY_TYPE_ARRAY), THEME,
+						record_date);
 
 				StringBuffer stringBuffer = new StringBuffer();
-
-				String central_no = getRandomValFromArray(CENTRAL_NO_ARRAY);
-				String record_date = getRandomTimeBetweenTwoDates(BEGINTIME, ENDTIME);
 				
 				//創建首錄
 				Header header = new Header();
@@ -142,10 +142,9 @@ public class PARTY_PHONE {
 					Detail detail = new Detail();
 					detail.setRecord_type("2");
 					detail.setDomain_id( String.valueOf(domain_id) );
-					//detail.setDomain_id(getRandomValFromArray(DOMAIN_ID_ARRAY));
 					detail.setParty_number(RandomValue.getUnicde());
-					detail.setChange_code(getRandomValFromArray(CHANGE_CODE_ARRAY));
-					detail.setPhone_type(getRandomValFromArray(PHONE_TYPE_ARRAY));
+					detail.setChange_code(Utils.getRandomValFromArray(CHANGE_CODE_ARRAY));
+					detail.setPhone_type(Utils.getRandomValFromArray(PHONE_TYPE_ARRAY));
 					detail.setPhone_number(RandomValue.getTel());
 					byte[] detail_byte = getDetail(detail);
 					stringBuffer.append(new String(detail_byte, "BIG5")).append("\r\n");
@@ -157,7 +156,7 @@ public class PARTY_PHONE {
 				footer.setRecord_type("3");
 				footer.setCentral_no(central_no);
 				footer.setRecord_date(record_date);
-				footer.setTotal_cnt(String.valueOf(detailCount));
+				footer.setTotal_cnt(Utils.totalCntFormat(detailCount, 7));
 				footer.setReserve_field("測試資料");
 				byte[] footer_byte = getFooter(footer);
 				
@@ -196,25 +195,25 @@ public class PARTY_PHONE {
 	private static byte[] getFooter(Footer footer) throws UnsupportedEncodingException {
 		// 區別碼
 		String record_type =footer.getRecord_type();
-		byte[] record_type_byte = byteFormat(record_type.getBytes("BIG5"), 1);
+		byte[] record_type_byte = Utils.byteFormat(record_type.getBytes("BIG5"), 1);
 		
 		// 報送單位
 		String central_no =footer.getCentral_no();
-		byte[] central_no_byte = byteFormat(central_no.getBytes("BIG5"), 7);
+		byte[] central_no_byte = Utils.byteFormat(central_no.getBytes("BIG5"), 7);
 		
 		// 檔案日期
 		String record_date =footer.getRecord_date();
-		byte[] record_date_byte = byteFormat(record_date.getBytes("BIG5"), 8);
+		byte[] record_date_byte = Utils.byteFormat(record_date.getBytes("BIG5"), 8);
 		
 		// 總筆數
 		String total_cnt =footer.getTotal_cnt();
-		byte[] total_cnt_byte = byteFormat(total_cnt.getBytes("BIG5"), 7);
+		byte[] total_cnt_byte = Utils.byteFormat(total_cnt.getBytes("BIG5"), 7);
 		
 		// 保留欄
 		String reserve_field =footer.getReserve_field();
-		byte[] reserve_field_byte = byteFormat(reserve_field.getBytes("BIG5"), 20);
+		byte[] reserve_field_byte = Utils.byteFormat(reserve_field.getBytes("BIG5"), 20);
 		
-		return getAllByteArray(record_type_byte, central_no_byte, record_date_byte, total_cnt_byte, reserve_field_byte);
+		return Utils.getAllByteArray(record_type_byte, central_no_byte, record_date_byte, total_cnt_byte, reserve_field_byte);
 	}
 	
 	/*
@@ -230,29 +229,29 @@ public class PARTY_PHONE {
 		
 		//區別碼
 		String record_type = detail.getRecord_type();
-		byte[] record_type_byte = byteFormat(record_type.getBytes("BIG5"), 1);
+		byte[] record_type_byte = Utils.byteFormat(record_type.getBytes("BIG5"), 1);
 
 		//本會代號
 		String domain_id = detail.getDomain_id();
-		byte[] domain_id_byte = byteFormat(domain_id.getBytes("BIG5"), 7);
+		byte[] domain_id_byte = Utils.byteFormat(domain_id.getBytes("BIG5"), 7);
 
 		//客戶統編
 		String party_number = detail.getParty_number();
-		byte[] party_number_byte = byteFormat(party_number.getBytes("BIG5"), 11);
+		byte[] party_number_byte = Utils.byteFormat(party_number.getBytes("BIG5"), 11);
 
 		//異動代號
 		String change_code = detail.getChange_code();
-		byte[] change_code_byte = byteFormat(change_code.getBytes("BIG5"), 1);
+		byte[] change_code_byte = Utils.byteFormat(change_code.getBytes("BIG5"), 1);
 
 		//電話類別
 		String phone_type = detail.getPhone_type();
-		byte[] phone_type_byte = byteFormat(phone_type.getBytes("BIG5"), 3);
+		byte[] phone_type_byte = Utils.byteFormat(phone_type.getBytes("BIG5"), 3);
 
 		//電話號碼
 		String phone_number = detail.getPhone_number();
-		byte[] phone_number_byte = byteFormat(phone_number.getBytes("BIG5"), 20);
+		byte[] phone_number_byte = Utils.byteFormat(phone_number.getBytes("BIG5"), 20);
 
-		return getAllByteArray(record_type_byte, domain_id_byte, party_number_byte, change_code_byte, phone_type_byte, phone_number_byte);
+		return Utils.getAllByteArray(record_type_byte, domain_id_byte, party_number_byte, change_code_byte, phone_type_byte, phone_number_byte);
 	}
 
 	/*
@@ -266,100 +265,21 @@ public class PARTY_PHONE {
 
 		//區別碼
 		String record_type = header.getRecord_type();
-		byte[] record_type_byte = byteFormat(record_type.getBytes("BIG5"), 1);
+		byte[] record_type_byte = Utils.byteFormat(record_type.getBytes("BIG5"), 1);
 
 		//報送單位
 		String central_no = header.getCentral_no();
-		byte[] central_no_byte = byteFormat(central_no.getBytes("BIG5"), 7);
+		byte[] central_no_byte = Utils.byteFormat(central_no.getBytes("BIG5"), 7);
 
 		//檔案日期
 		String record_date = header.getRecord_date();
-		byte[] record_date_byte = byteFormat(record_date.getBytes("BIG5"), 8);
+		byte[] record_date_byte = Utils.byteFormat(record_date.getBytes("BIG5"), 8);
 
 		//保留欄
 		String reserve_field = header.getReserve_field();
-		byte[] reserve_field_byte = byteFormat(reserve_field.getBytes("BIG5"), 27);
+		byte[] reserve_field_byte = Utils.byteFormat(reserve_field.getBytes("BIG5"), 27);
 
-		return getAllByteArray(record_type_byte, central_no_byte, record_date_byte, reserve_field_byte);
+		return Utils.getAllByteArray(record_type_byte, central_no_byte, record_date_byte, reserve_field_byte);
 	}
 
-	private static String getSliceBytesText(byte[] source, int start, int end, String charset) {
-		String text = "";
-		try {
-			text = new String(Arrays.copyOfRange(source, start, end), charset);
-		} catch (Exception e) {
-			return text;
-		}
-		return text;
-	}
-
-	private static byte[] getAllByteArray(byte[]... bs) {
-
-		int length = 0;
-		for (int i = 0; i < bs.length; i++) {
-			length += bs[i].length;
-		}
-		byte[] all = new byte[length];
-
-		int start = 0;
-		int last_start = 0;
-		int copy_start = 0;
-
-		for (int i = 0; i < bs.length; i++) {
-			byte[] now = bs[i];
-
-			int nowByteLength = now.length;
-
-			StringBuffer stringBuffer = new StringBuffer();
-			for (int j = 0; j < nowByteLength; j++) {
-				stringBuffer.append(now[j] + " ");
-			}
-
-			start += last_start;
-
-			if (start != 0) {
-				start += 1;
-				nowByteLength -= 1;
-			}
-
-			System.arraycopy(now, 0, all, copy_start, now.length);
-			last_start = nowByteLength;
-			copy_start += now.length;
-		}
-		return all;
-	}
-
-	private static String fileNameFormat(String... strs) {
-		String fileName = "";
-
-		for (int i = 0; i < strs.length; i++) {
-			fileName += strs[i];
-			if (i < strs.length - 1)
-				fileName += "_";
-		}
-		if (!fileName.equals(""))
-			fileName += ".txt";
-		return fileName;
-	}
-
-	private static <T> T getRandomValFromArray(T[] array) {
-		Random random = new Random();
-
-		return array[random.nextInt(array.length)];
-	}
-
-	private static String getRandomTimeBetweenTwoDates(long beginTime, long endTime) {
-		long diff = endTime - beginTime + 1;
-		long date = beginTime + (long) (Math.random() * diff);
-		Date randomDate = new Date(date);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-
-		return dateFormat.format(randomDate);
-	}
-
-	private static byte[] byteFormat(byte[] source, int range) {
-
-		return Arrays.copyOf(source, range);
-
-	}
 }

@@ -15,6 +15,7 @@ import tw.com.fakedatagenerator.mode.Footer;
 import tw.com.fakedatagenerator.mode.Header;
 import tw.com.fakedatagenerator.party.mode.DetailOwn;
 import tw.com.fakedatagenerator.util.RandomValue;
+import tw.com.fakedatagenerator.util.Utils;
 
 public class PARTY {
 	
@@ -532,24 +533,24 @@ public class PARTY {
 		int fileCount = 1;
 		
 		//起始本會代號
-		int domain_id = 5070013;
+		int domain_id = 5030019;
 		
 		//要產生的明細錄筆數範圍
-		int detailCount = 100;
+		int detailCount = 1000000;
 		try {
 			System.out.println("顧客基本資料創建開始\n");
 			
 			StringBuilder executiveContent = new StringBuilder();
 			
 			for (int i = 0; i < fileCount; i++) {
-				String fileName = fileNameFormat(getRandomValFromArray(CENTRAL_NO_ARRAY),
-						getRandomValFromArray(CURRENCY_TYPE_ARRAY), THEME,
-						getRandomTimeBetweenTwoDates(BEGINTIME, ENDTIME));
+				String central_no = Utils.getRandomValFromArray(CENTRAL_NO_ARRAY);
+				String record_date = Utils.getRandomTimeBetweenTwoDates(BEGINTIME, ENDTIME);
+				
+				String fileName = Utils.fileNameFormat(central_no,
+						Utils.getRandomValFromArray(CURRENCY_TYPE_ARRAY), THEME,
+						record_date);
 
 				StringBuffer stringBuffer = new StringBuffer();
-
-				String central_no = getRandomValFromArray(CENTRAL_NO_ARRAY);
-				String record_date = getRandomTimeBetweenTwoDates(BEGINTIME, ENDTIME);
 				
 				//創建首錄
 				Header header = new Header();
@@ -567,22 +568,22 @@ public class PARTY {
 					detail.setRecord_type("2");
 					detail.setDomain_id( String.valueOf(domain_id) );
 					detail.setParty_number(RandomValue.getUnicde());
-					detail.setChange_code(getRandomValFromArray(CHANGE_CODE_ARRAY));
-					detail.setMy_customer_flag(getRandomValFromArray(MY_CUSTOMER_FLAG_ARRAY));
-					detail.setBranch_code(getRandomValFromArray(BRANCH_CODE_ARRAY));
-					detail.setEntity_type(getRandomValFromArray(ENTITY_TYPE_ARRAY));
-					detail.setEntity_sub_type(getRandomValFromArray(ENTITY_SUB_TYPE_ARRAY));
+					detail.setChange_code(Utils.getRandomValFromArray(CHANGE_CODE_ARRAY));
+					detail.setMy_customer_flag(Utils.getRandomValFromArray(MY_CUSTOMER_FLAG_ARRAY));
+					detail.setBranch_code(Utils.getRandomValFromArray(BRANCH_CODE_ARRAY));
+					detail.setEntity_type(Utils.getRandomValFromArray(ENTITY_TYPE_ARRAY));
+					detail.setEntity_sub_type(Utils.getRandomValFromArray(ENTITY_SUB_TYPE_ARRAY));
 					detail.setParty_first_name_1("");
 					detail.setParty_last_name_1(RandomValue.getChineseName());
 					detail.setDate_of_birth("");
 					detail.setDeceased_date("");
-					detail.setNationality_code(getRandomValFromArray(NATIONALITY_CODE_ARRAY));
+					detail.setNationality_code(Utils.getRandomValFromArray(NATIONALITY_CODE_ARRAY));
 					detail.setParty_first_name_2("");
 					detail.setParty_last_name_2("");
 					detail.setOpen_date("");
 					detail.setClose_date("");
 					
-					String gender = getRandomValFromArray(GENDER_ARRAY);
+					String gender = Utils.getRandomValFromArray(GENDER_ARRAY);
 					detail.setGender(gender);
 					
 					if(" ".equals(gender)){
@@ -594,30 +595,30 @@ public class PARTY {
 						detail.setMarital_status_code(" ");
 					}else{
 						detail.setAnnual_income("");
-						detail.setMarital_status_code(getRandomValFromArray(MARITAL_STATUS_CODE_ARRAY));
+						detail.setMarital_status_code(Utils.getRandomValFromArray(MARITAL_STATUS_CODE_ARRAY));
 					}
 
-					detail.setOccupation_code(getRandomValFromArray(OCCUPATION_CODE_ARRAY));
+					detail.setOccupation_code(Utils.getRandomValFromArray(OCCUPATION_CODE_ARRAY));
 					detail.setEmployer_name("");
 					detail.setEmployer("");
-					detail.setEmployee_flag(getRandomValFromArray(EMPLOYEE_FLAG_ARRAY));
+					detail.setEmployee_flag(Utils.getRandomValFromArray(EMPLOYEE_FLAG_ARRAY));
 					detail.setPlace_of_birth("");
 					
-					String multiple_nationality_flag = getRandomValFromArray(MULTIPLE_NATIONALITY_FLAG_ARRAY);
+					String multiple_nationality_flag = Utils.getRandomValFromArray(MULTIPLE_NATIONALITY_FLAG_ARRAY);
 					detail.setMultiple_nationality_flag(multiple_nationality_flag);
 					if ("N".equals(multiple_nationality_flag)){
-						detail.setNationality_code_2(getRandomValFromArray(NATIONALITY_CODE_ARRAY));
+						detail.setNationality_code_2(Utils.getRandomValFromArray(NATIONALITY_CODE_ARRAY));
 					}else {
 						detail.setNationality_code_2("");
 					}
 					detail.setEmail_address(RandomValue.getEmail(5, 12));
-					detail.setRegistered_service_atm(getRandomValFromArray(REGISTERED_SERVICE_ATM_ARRAY));
+					detail.setRegistered_service_atm(Utils.getRandomValFromArray(REGISTERED_SERVICE_ATM_ARRAY));
 					
-					detail.setRegistered_service_telephone(getRandomValFromArray(REGISTERED_SERVICE_TELEPHONE_ARRAY));
-					detail.setRegistered_service_fax(getRandomValFromArray(REGISTERED_SERVICE_FAX_ARRAY));
-					detail.setRegistered_service_internet(getRandomValFromArray(REGISTERED_SERVICE_INTERNET_ARRAY));
-					detail.setRegistered_service_mobile(getRandomValFromArray(REGISTERED_SERVICE_MOBILE_ARRAY));
-					detail.setBearer_stock_flag(getRandomValFromArray(BEARER_STOCK_FLAG_ARRAY));
+					detail.setRegistered_service_telephone(Utils.getRandomValFromArray(REGISTERED_SERVICE_TELEPHONE_ARRAY));
+					detail.setRegistered_service_fax(Utils.getRandomValFromArray(REGISTERED_SERVICE_FAX_ARRAY));
+					detail.setRegistered_service_internet(Utils.getRandomValFromArray(REGISTERED_SERVICE_INTERNET_ARRAY));
+					detail.setRegistered_service_mobile(Utils.getRandomValFromArray(REGISTERED_SERVICE_MOBILE_ARRAY));
+					detail.setBearer_stock_flag(Utils.getRandomValFromArray(BEARER_STOCK_FLAG_ARRAY));
 					
 					detail.setBearer_stock_description("");
 					detail.setForeign_transaction_purpose("");
@@ -635,7 +636,7 @@ public class PARTY {
 				footer.setRecord_type("3");
 				footer.setCentral_no(central_no);
 				footer.setRecord_date(record_date);
-				footer.setTotal_cnt(String.valueOf(detailCount));
+				footer.setTotal_cnt(Utils.totalCntFormat(detailCount, 7));
 				footer.setReserve_field("測試資料");
 				byte[] footer_byte = getFooter(footer);
 				
@@ -673,21 +674,21 @@ public class PARTY {
 
 		//區別碼
 		String record_type = header.getRecord_type();
-		byte[] record_type_byte = byteFormat(record_type.getBytes("BIG5"), 1);
+		byte[] record_type_byte = Utils.byteFormat(record_type.getBytes("BIG5"), 1);
 
 		//報送單位
 		String central_no = header.getCentral_no();
-		byte[] central_no_byte = byteFormat(central_no.getBytes("BIG5"), 7);
+		byte[] central_no_byte = Utils.byteFormat(central_no.getBytes("BIG5"), 7);
 
 		//檔案日期
 		String record_date = header.getRecord_date();
-		byte[] record_date_byte = byteFormat(record_date.getBytes("BIG5"), 8);
+		byte[] record_date_byte = Utils.byteFormat(record_date.getBytes("BIG5"), 8);
 
 		//保留欄
 		String reserve_field = header.getReserve_field();
-		byte[] reserve_field_byte = byteFormat(reserve_field.getBytes("BIG5"), 602);
+		byte[] reserve_field_byte = Utils.byteFormat(reserve_field.getBytes("BIG5"), 602);
 
-		return getAllByteArray(record_type_byte, central_no_byte, record_date_byte, reserve_field_byte);
+		return Utils.getAllByteArray(record_type_byte, central_no_byte, record_date_byte, reserve_field_byte);
 	}
 	
 	
@@ -735,158 +736,158 @@ public class PARTY {
 		
 		//區別碼
 		String record_type = detail.getRecord_type();
-		byte[] record_type_byte = byteFormat(record_type.getBytes("BIG5"), 1);
+		byte[] record_type_byte = Utils.byteFormat(record_type.getBytes("BIG5"), 1);
 
 		//本會代號
 		String domain_id = detail.getDomain_id();
-		byte[] domain_id_byte = byteFormat(domain_id.getBytes("BIG5"), 7);
+		byte[] domain_id_byte = Utils.byteFormat(domain_id.getBytes("BIG5"), 7);
 
 		//客戶統編
 		String party_number = detail.getParty_number();
-		byte[] party_number_byte = byteFormat(party_number.getBytes("BIG5"), 11);
+		byte[] party_number_byte = Utils.byteFormat(party_number.getBytes("BIG5"), 11);
 
 		//異動代號
 		String change_code = detail.getChange_code();
-		byte[] change_code_byte = byteFormat(change_code.getBytes("BIG5"), 1);
+		byte[] change_code_byte = Utils.byteFormat(change_code.getBytes("BIG5"), 1);
 		
 		//是否為本行客戶
 		String my_customer_flag = detail.getMy_customer_flag();
-		byte[] my_customer_flag_byte = byteFormat(my_customer_flag.getBytes("BIG5"), 1);
+		byte[] my_customer_flag_byte = Utils.byteFormat(my_customer_flag.getBytes("BIG5"), 1);
 
 		//歸屬本/分會代號
 		String branch_code = detail.getBranch_code();
-		byte[] branch_code_byte = byteFormat(branch_code.getBytes("BIG5"), 7);
+		byte[] branch_code_byte = Utils.byteFormat(branch_code.getBytes("BIG5"), 7);
 
 		//顧客類型
 		String entity_type = detail.getEntity_type();
-		byte[] entity_type_byte = byteFormat(entity_type.getBytes("BIG5"), 3);
+		byte[] entity_type_byte = Utils.byteFormat(entity_type.getBytes("BIG5"), 3);
 
 		//客戶子類型
 		String entity_sub_type = detail.getEntity_sub_type();
-		byte[] entity_sub_type_byte = byteFormat(entity_sub_type.getBytes("BIG5"), 1);
+		byte[] entity_sub_type_byte = Utils.byteFormat(entity_sub_type.getBytes("BIG5"), 1);
 
 		//中文名字
 		String party_first_name_1 = detail.getParty_first_name_1();
-		byte[] party_first_name_1_byte = byteFormat(party_first_name_1.getBytes("BIG5"), 40);
+		byte[] party_first_name_1_byte = Utils.byteFormat(party_first_name_1.getBytes("BIG5"), 40);
 
 		//中文姓氏
 		String party_last_name_1 = detail.getParty_last_name_1();
-		byte[] party_last_name_1_byte = byteFormat(party_last_name_1.getBytes("BIG5"), 80);
+		byte[] party_last_name_1_byte = Utils.byteFormat(party_last_name_1.getBytes("BIG5"), 80);
 
 		//出生年月日/創立日期
 		String date_of_birth = detail.getDate_of_birth();
-		byte[] date_of_birth_byte = byteFormat(date_of_birth.getBytes("BIG5"), 8);
+		byte[] date_of_birth_byte = Utils.byteFormat(date_of_birth.getBytes("BIG5"), 8);
 
 		//亡故日期
 		String deceased_date = detail.getDeceased_date();
-		byte[] deceased_date_byte = byteFormat(deceased_date.getBytes("BIG5"), 8);
+		byte[] deceased_date_byte = Utils.byteFormat(deceased_date.getBytes("BIG5"), 8);
 
 		//國籍
 		String nationality_code = detail.getNationality_code();
-		byte[] nationality_code_byte = byteFormat(nationality_code.getBytes("BIG5"), 2);
+		byte[] nationality_code_byte = Utils.byteFormat(nationality_code.getBytes("BIG5"), 2);
 
 		//英文名字
 		String party_first_name_2 = detail.getParty_first_name_2();
-		byte[] party_first_name_2_byte = byteFormat(party_first_name_2.getBytes("BIG5"), 40);
+		byte[] party_first_name_2_byte = Utils.byteFormat(party_first_name_2.getBytes("BIG5"), 40);
 
 		//英文姓氏
 		String party_last_name_2 = detail.getParty_first_name_2();
-		byte[] party_last_name_2_byte = byteFormat(party_last_name_2.getBytes("BIG5"), 80);
+		byte[] party_last_name_2_byte = Utils.byteFormat(party_last_name_2.getBytes("BIG5"), 80);
 
 		//顧客開戶日期
 		String open_date = detail.getOpen_date();
-		byte[] open_date_byte = byteFormat(open_date.getBytes("BIG5"), 8);
+		byte[] open_date_byte = Utils.byteFormat(open_date.getBytes("BIG5"), 8);
 		
 		//顧客結清日期
 		String close_date = detail.getClose_date();
-		byte[] close_date_byte = byteFormat(close_date.getBytes("BIG5"), 8);
+		byte[] close_date_byte = Utils.byteFormat(close_date.getBytes("BIG5"), 8);
 
 		//性別
 		String gender = detail.getGender();
-		byte[] gender_byte = byteFormat(gender.getBytes("BIG5"), 1);
+		byte[] gender_byte = Utils.byteFormat(gender.getBytes("BIG5"), 1);
 		
 		//年收入
 		String annual_income = detail.getAnnual_income();
-		byte[] annual_income_byte = byteFormat(annual_income.getBytes("BIG5"), 10);
+		byte[] annual_income_byte = Utils.byteFormat(annual_income.getBytes("BIG5"), 10);
 		
 		//職業/行業
 		String occupation_code = detail.getOccupation_code();
-		byte[] occupation_code_byte = byteFormat(occupation_code.getBytes("BIG5"), 6);
+		byte[] occupation_code_byte = Utils.byteFormat(occupation_code.getBytes("BIG5"), 6);
 
 		//婚姻狀況
 		String marital_status_code = detail.getMarital_status_code();
-		byte[] marital_status_code_byte = byteFormat(marital_status_code.getBytes("BIG5"), 1);
+		byte[] marital_status_code_byte = Utils.byteFormat(marital_status_code.getBytes("BIG5"), 1);
 		
 		//服務機構
 		String employer_name = detail.getEmployer_name();
-		byte[] employer_name_byte = byteFormat(employer_name.getBytes("BIG5"), 30);
+		byte[] employer_name_byte = Utils.byteFormat(employer_name.getBytes("BIG5"), 30);
 		
 		//服務機構統編
 		String employer = detail.getEmployer();
-		byte[] employer_byte = byteFormat(employer.getBytes("BIG5"), 8);
+		byte[] employer_byte = Utils.byteFormat(employer.getBytes("BIG5"), 8);
 		
 		//行內員工註記
 		String employee_flag = detail.getEmployee_flag();
-		byte[] employee_flag_byte = byteFormat(employee_flag.getBytes("BIG5"), 1);
+		byte[] employee_flag_byte = Utils.byteFormat(employee_flag.getBytes("BIG5"), 1);
 		
 		//出生地
 		String place_of_birth = detail.getPlace_of_birth();
-		byte[] place_of_birthmployer_byte = byteFormat(place_of_birth.getBytes("BIG5"), 18);
+		byte[] place_of_birthmployer_byte = Utils.byteFormat(place_of_birth.getBytes("BIG5"), 18);
 		
 		//是否具多重國籍(自然人)
 		String multiple_nationality_flag = detail.getMultiple_nationality_flag();
-		byte[] multiple_nationality_flag_byte = byteFormat(multiple_nationality_flag.getBytes("BIG5"), 1);
+		byte[] multiple_nationality_flag_byte = Utils.byteFormat(multiple_nationality_flag.getBytes("BIG5"), 1);
 		
 		//第二國籍
 		String nationality_code_2 = detail.getNationality_code_2();
-		byte[] nationality_code_2_byte = byteFormat(nationality_code_2.getBytes("BIG5"), 2);
+		byte[] nationality_code_2_byte = Utils.byteFormat(nationality_code_2.getBytes("BIG5"), 2);
 		
 		//顧客電子郵件
 		String email_address = detail.getEmail_address();
-		byte[] email_address_byte = byteFormat(email_address.getBytes("BIG5"), 80);
+		byte[] email_address_byte = Utils.byteFormat(email_address.getBytes("BIG5"), 80);
 		
 		//金融卡約定服務
 		String registered_service_atm = detail.getRegistered_service_atm();
-		byte[] registered_service_atm_byte = byteFormat(registered_service_atm.getBytes("BIG5"), 1);
+		byte[] registered_service_atm_byte = Utils.byteFormat(registered_service_atm.getBytes("BIG5"), 1);
 		
 		//電話約定服務
 		String registered_service_telephone = detail.getRegistered_service_telephone();
-		byte[] registered_service_telephone_byte = byteFormat(registered_service_telephone.getBytes("BIG5"), 1);
+		byte[] registered_service_telephone_byte = Utils.byteFormat(registered_service_telephone.getBytes("BIG5"), 1);
 		
 		//傳真約定服務
 		String registered_service_fax = detail.getRegistered_service_fax();
-		byte[] registered_service_fax_byte = byteFormat(registered_service_fax.getBytes("BIG5"), 1);
+		byte[] registered_service_fax_byte = Utils.byteFormat(registered_service_fax.getBytes("BIG5"), 1);
 		
 		//網銀約定服務
 		String registered_service_internet = detail.getRegistered_service_internet();
-		byte[] registered_service_internet_byte = byteFormat(registered_service_internet.getBytes("BIG5"), 1);
+		byte[] registered_service_internet_byte = Utils.byteFormat(registered_service_internet.getBytes("BIG5"), 1);
 		
 		//行動銀行約定服務
 		String registered_service_mobile = detail.getRegistered_service_mobile();
-		byte[] registered_service_mobile_byte = byteFormat(registered_service_mobile.getBytes("BIG5"), 1);
+		byte[] registered_service_mobile_byte = Utils.byteFormat(registered_service_mobile.getBytes("BIG5"), 1);
 		
 		//是否得發行無記名股票 (法人)
 		String bearer_stock_flag = detail.getBearer_stock_flag();
-		byte[] bearer_stock_flag_byte = byteFormat(bearer_stock_flag.getBytes("BIG5"), 1);
+		byte[] bearer_stock_flag_byte = Utils.byteFormat(bearer_stock_flag.getBytes("BIG5"), 1);
 		
 		//無記名股票 (法人)資訊說明
 		String bearer_stock_description = detail.getBearer_stock_description();
-		byte[] bearer_stock_description_byte = byteFormat(bearer_stock_description.getBytes("BIG5"), 40);
+		byte[] bearer_stock_description_byte = Utils.byteFormat(bearer_stock_description.getBytes("BIG5"), 40);
 		
 		//外國人士居留或交易目的
 		String foreign_transaction_purpose = detail.getForeign_transaction_purpose();
-		byte[] foreign_transaction_purpose_byte = byteFormat(foreign_transaction_purpose.getBytes("BIG5"), 80);
+		byte[] foreign_transaction_purpose_byte = Utils.byteFormat(foreign_transaction_purpose.getBytes("BIG5"), 80);
 		
 		//顧客aum餘額
 		String total_asset = detail.getTotal_asset();
-		byte[] total_asset_byte = byteFormat(total_asset.getBytes("BIG5"), 14);
+		byte[] total_asset_byte = Utils.byteFormat(total_asset.getBytes("BIG5"), 14);
 		
 		//信託客戶aum餘額
 		String trust_total_asset = detail.getTrust_total_asset();
-		byte[] trust_total_asset_byte = byteFormat(trust_total_asset.getBytes("BIG5"), 14);
+		byte[] trust_total_asset_byte = Utils.byteFormat(trust_total_asset.getBytes("BIG5"), 14);
 				
 		
-		return getAllByteArray(record_type_byte, domain_id_byte, party_number_byte, change_code_byte, my_customer_flag_byte, branch_code_byte, entity_type_byte,
+		return Utils.getAllByteArray(record_type_byte, domain_id_byte, party_number_byte, change_code_byte, my_customer_flag_byte, branch_code_byte, entity_type_byte,
 				entity_sub_type_byte, party_first_name_1_byte, party_last_name_1_byte, date_of_birth_byte, deceased_date_byte, nationality_code_byte, party_first_name_2_byte,
 				party_last_name_2_byte, open_date_byte, close_date_byte, gender_byte, annual_income_byte, occupation_code_byte, marital_status_code_byte, employer_name_byte,
 				employer_byte, employee_flag_byte, place_of_birthmployer_byte, multiple_nationality_flag_byte, nationality_code_2_byte, email_address_byte, registered_service_atm_byte,
@@ -905,104 +906,24 @@ public class PARTY {
 	private static byte[] getFooter(Footer footer) throws UnsupportedEncodingException {
 		// 區別碼
 		String record_type =footer.getRecord_type();
-		byte[] record_type_byte = byteFormat(record_type.getBytes("BIG5"), 1);
+		byte[] record_type_byte = Utils.byteFormat(record_type.getBytes("BIG5"), 1);
 		
 		// 報送單位
 		String central_no =footer.getCentral_no();
-		byte[] central_no_byte = byteFormat(central_no.getBytes("BIG5"), 7);
+		byte[] central_no_byte = Utils.byteFormat(central_no.getBytes("BIG5"), 7);
 		
 		// 檔案日期
 		String record_date =footer.getRecord_date();
-		byte[] record_date_byte = byteFormat(record_date.getBytes("BIG5"), 8);
+		byte[] record_date_byte = Utils.byteFormat(record_date.getBytes("BIG5"), 8);
 		
 		// 總筆數
 		String total_cnt =footer.getTotal_cnt();
-		byte[] total_cnt_byte = byteFormat(total_cnt.getBytes("BIG5"), 7);
+		byte[] total_cnt_byte = Utils.byteFormat(total_cnt.getBytes("BIG5"), 7);
 		
 		// 保留欄
 		String reserve_field =footer.getReserve_field();
-		byte[] reserve_field_byte = byteFormat(reserve_field.getBytes("BIG5"), 595);
+		byte[] reserve_field_byte = Utils.byteFormat(reserve_field.getBytes("BIG5"), 595);
 		
-		return getAllByteArray(record_type_byte, central_no_byte, record_date_byte, total_cnt_byte, reserve_field_byte);
-	}
-	
-	private static String getSliceBytesText(byte[] source, int start, int end, String charset) {
-		String text = "";
-		try {
-			text = new String(Arrays.copyOfRange(source, start, end), charset);
-		} catch (Exception e) {
-			return text;
-		}
-		return text;
-	}
-
-	private static byte[] getAllByteArray(byte[]... bs) {
-
-		int length = 0;
-		for (int i = 0; i < bs.length; i++) {
-			length += bs[i].length;
-		}
-		byte[] all = new byte[length];
-
-		int start = 0;
-		int last_start = 0;
-		int copy_start = 0;
-
-		for (int i = 0; i < bs.length; i++) {
-			byte[] now = bs[i];
-
-			int nowByteLength = now.length;
-
-			StringBuffer stringBuffer = new StringBuffer();
-			for (int j = 0; j < nowByteLength; j++) {
-				stringBuffer.append(now[j] + " ");
-			}
-
-			start += last_start;
-
-			if (start != 0) {
-				start += 1;
-				nowByteLength -= 1;
-			}
-
-			System.arraycopy(now, 0, all, copy_start, now.length);
-			last_start = nowByteLength;
-			copy_start += now.length;
-		}
-		return all;
-	}
-
-	private static String fileNameFormat(String... strs) {
-		String fileName = "";
-
-		for (int i = 0; i < strs.length; i++) {
-			fileName += strs[i];
-			if (i < strs.length - 1)
-				fileName += "_";
-		}
-		if (!fileName.equals(""))
-			fileName += ".txt";
-		return fileName;
-	}
-
-	private static <T> T getRandomValFromArray(T[] array) {
-		Random random = new Random();
-
-		return array[random.nextInt(array.length)];
-	}
-
-	private static String getRandomTimeBetweenTwoDates(long beginTime, long endTime) {
-		long diff = endTime - beginTime + 1;
-		long date = beginTime + (long) (Math.random() * diff);
-		Date randomDate = new Date(date);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-
-		return dateFormat.format(randomDate);
-	}
-
-	private static byte[] byteFormat(byte[] source, int range) {
-
-		return Arrays.copyOf(source, range);
-
+		return Utils.getAllByteArray(record_type_byte, central_no_byte, record_date_byte, total_cnt_byte, reserve_field_byte);
 	}
 }

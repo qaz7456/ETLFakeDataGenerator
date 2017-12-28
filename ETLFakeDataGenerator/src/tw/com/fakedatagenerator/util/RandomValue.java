@@ -78,6 +78,19 @@ public class RandomValue {
 		return unicodes[random.nextInt(unicodes.length)];
     }
     
+	public static String getRandomNumToStr(int size) {
+		StringBuffer sBuffer = new StringBuffer();
+
+		for (int i = 0; i < size; i++) {
+
+			int num = new Random().nextInt(10);
+			num = num == 0 ? num + 1 : num;
+			
+			sBuffer.append(String.valueOf(num));
+		}
+		return sBuffer.toString();
+	}
+    
     public static Map getAddress() {  
         Map map=new HashMap();  
         map.put("name", getChineseName());  
