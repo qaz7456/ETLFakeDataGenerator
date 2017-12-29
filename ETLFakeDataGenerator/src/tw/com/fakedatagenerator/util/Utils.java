@@ -80,7 +80,7 @@ public class Utils {
 			fileName += ".txt";
 		return fileName;
 	}
-	public static String totalCntFormat(int val, int range) {
+	public static String DigitalFillBit(int val, int range) {
 		String tmp = String.valueOf(val);
 		StringBuffer sBuffer = new StringBuffer();
 		if (range > tmp.length()) {

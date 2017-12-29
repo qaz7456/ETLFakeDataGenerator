@@ -100,12 +100,43 @@ public class RandomValue {
         map.put("email", getEmail(6,9));  
         return map;  
     }  
-      
+
+    public static String getRandomTaiwanID(){
+    	String checkHead = "ABCDEFGHJKLMNPQRSTUVWXYZIO";
+		Random r = new Random();
+		String s = "";
+		int checknum = 0;	// 產生前9碼的同時計算產生驗證碼
+
+		// 產生第一個英文字母
+		int t=(r.nextInt(26)+65);
+		s+=(char)t;
+		t=checkHead.indexOf((char)t)+10;
+		checknum += t/10;
+		checknum += t%10*9;
+
+		// 產生第2個數字 (1~2)
+		s += Integer.toString(t = r.nextInt(2)+1);
+		checknum += t*8;
+
+		// 產生後8碼
+		for (int i=2; i<9; i++){
+			s += Integer.toString(t = r.nextInt(10));
+			checknum += t*(9-i);
+		}
+		
+		// 完成驗證碼計算
+		checknum = (10-((checknum)%10))%10;
+		s+=Integer.toString(checknum);
+
+		return s;
+    }
     public static void main(String[] args) {  
-        for (int i = 0; i < 100; i++) {  
-            System.out.println(getTel());  
+    	
+
+//        for (int i = 0; i < 100; i++) {  
+//            System.out.println(getTel());  
 //          System.out.println(getEmailName(6,9));  
-        }  
+//        }  
     }
     
 }

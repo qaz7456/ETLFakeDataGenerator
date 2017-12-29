@@ -152,7 +152,7 @@ public class COLLATERAL {
 				footer.setRecord_type("3");
 				footer.setCentral_no(central_no);
 				footer.setRecord_date(record_date);
-				footer.setTotal_cnt(Utils.totalCntFormat(detailCount, 7));
+				footer.setTotal_cnt(Utils.DigitalFillBit(detailCount, 7));
 				footer.setReserve_field("測試資料");
 				byte[] footer_byte = getFooter(footer);
 				
